@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="wizards">
+<head>
+  <meta charset="UTF-8">
+  <title>Wizard derectives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <!--build:css(dist) styles/styles.min.css-->
+    <!--bower:css-->
+    <!--endbower-->
+    <link rel="stylesheet" href="styles/styles.css">
+  <!--endbuild-->
+</head>
+<body>
+
+  <div class="container">
+    <div wizard class="row">
+      <div class="col-md-3">
+        <wizard-steps-navigation></wizard-steps-navigation>
+      </div>
+      <div class="col-md-9">
+        <wizard-step>
+          <h1>Step 1</h1>
+          <p>Some description for Step 1. <b>Bold some text</b></p>
+        </wizard-step>
+
+        <wizard-step>
+          <h1>Step 2</h1>
+          <p>Description for Step 2</p>
+        </wizard-step>
+      </div>
+      <div class="col-md-12">
+        Pagination
+      </div>
+    </div>
+
+    <hr/>
+
+    <div wizard class="row">
+      <div class="col-md-3">
+        <wizard-steps-navigation template="views/elements/navigation-example.html"></wizard-steps-navigation>
+      </div>
+      <div class="col-md-9">
+        <wizard-step>
+          <h1>Step 1</h1>
+          <p>Some description for Step 1. <b>Bold some text</b></p>
+
+          <form ng-submit="$parent.wizard.nextStep()">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </wizard-step>
+
+        <wizard-step>
+          <h1>Step 2</h1>
+          <p>Description for Step 2</p>
+        </wizard-step>
+
+        <wizard-step>
+          <h1>Step 3</h1>
+          <p>Description for Step 3</p>
+        </wizard-step>
+      </div>
+      <div class="col-md-12">
+        Pagination
+      </div>
+    </div>
+  </div>
+
+
+  <!--build:js(dist) js/all.min.js-->
+    <!--bower:js-->
+    <!--endbower-->
+
+    <!--inject:js-->
+    <!--endinject-->
+  <!--endbuild-->
+
+</body>
+</html>
