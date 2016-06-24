@@ -12,18 +12,17 @@
         link: function (scope, element, attrs, wizardController){
           var templatePath = attrs.template || 'views/elements/wizard-steps-navigation-default.html';
 
+          /**
+           * Initialize
+           */
           (function(){
             var steps = [];
 
+            // Important:
+            //
+            // We don`t anticipate that steps will be added after load app
             scope.$on('addStep', function(event, data){
               steps.push(data);
-
-              // if(!templateData){
-              //   // Template is not load yet...
-              //   return;
-              // }
-              //
-              // generate(stepCache);
             });
 
             $templateRequest(templatePath, true)
@@ -36,15 +35,6 @@
                 element.empty().append($compile(templateData)(tplScope));
               });
           }());
-
-          // function generate(steps){
-          //   var tplScope = $rootScope.$new();
-          //
-          //   tplScope.steps  = steps;
-          //   tplScope.wizard = wizardController;
-          //
-          //   element.empty().append($compile(templateData)(tplScope));
-          // }
         }
       }
 

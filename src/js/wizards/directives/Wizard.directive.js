@@ -11,16 +11,38 @@
         scope: {},
 
         controller: function($scope){
+          /**
+           * Private scope
+           *
+           * @private
+           */
           var _private = {
+            /**
+             * Index of active step
+             */
             activeStepIndex: null,
 
+            /**
+             * List of steps
+             */
             steps: []
           };
 
+          /**
+           * Get next index for new step
+           *
+           * @returns {Number}
+           */
           this.getNextIndex = function(){
             return _private.steps.length;
           };
 
+          /**
+           * Add new step
+           *
+           * @param {String} name
+           * @param {String} desc
+           */
           this.addStep = function(name, desc){
             var data = {
               name: name,
@@ -41,6 +63,24 @@
             }
           };
 
+          /**
+           * Get step by index
+           *
+           * @param {Number} index
+           * @returns {Object}
+           */
+          this.getStep = function(index){
+            return {
+              index:    index,
+              stepData: _private.steps[index]
+            }
+          };
+
+          /**
+           * Change active step
+           *
+           * @param {Number} index
+           */
           this.changeStep = function(index){
             $scope.$broadcast('changeActiveStep', {
               index:    index,
@@ -48,17 +88,28 @@
             });
           };
 
-          this.nextStep = function(){
+          /**
+           * Return true if exist next step
+           *
+           * @returns {Boolean}
+           */
+          this.isNextStep = function(){
             var nextIndex = _private.activeStepIndex + 1;
 
-            if(nextIndex >= _private.steps.length){
+            return (nextIndex < _private.steps.length);
+          };
+
+          /**
+           * Change step to next (if exist)
+           */
+          this.nextStep = function(){
+            if(false === this.isNextStep()){
               return;
             }
 
-            $scope.$broadcast('changeActiveStep', {
-              index:    nextIndex,
-              stepData: _private.steps[nextIndex]
-            });
+            var nextIndex = _private.activeStepIndex + 1;
+
+            $scope.$broadcast('changeActiveStep', this.getStep(nextIndex));
           }
         }
       }

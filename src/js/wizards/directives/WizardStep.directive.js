@@ -12,8 +12,11 @@
         scope: {},
 
         link: function (scope, element, attrs, wizardController) {
-          scope.wizard    = wizardController;
+          scope.wizard = wizardController;
 
+          /**
+           * Initialize
+           */
           (function(){
             var name = element.find('h1').text();
             var desc = element.find('p').text();
