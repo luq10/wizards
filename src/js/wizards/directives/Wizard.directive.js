@@ -8,7 +8,9 @@
         templateUrl: 'views/elements/wizard.html',
         transclude: true,
         replace: true,
-        scope: {},
+        scope: {
+          onComplete: '&'
+        },
 
         controller: function($scope){
           /**
@@ -32,7 +34,12 @@
             /**
              * List of step validation
              */
-            validation: []
+            validation: [],
+
+            /**
+             *
+             */
+            isComplete: false
           };
 
           /**
@@ -93,13 +100,16 @@
               }
 
               if(true === isValidAll){
+                _private.isComplete = true;
                 $scope.$broadcast('wizardValid');
               }
               else{
+                _private.isComplete = false;
                 $scope.$broadcast('wizardInvalid');
               }
             }
             else{
+              _private.isComplete = true;
               $scope.$broadcast('wizardInvalid');
             }
           };
@@ -174,6 +184,17 @@
 
             this.changeStep(_private.activeStepIndex - 1);
           };
+
+          /**
+           * 
+           */
+          this.complete = function(){
+            if(false === _private.isComplete){
+              return;
+            }
+
+            $scope.onComplete();
+          }
         }
       }
 

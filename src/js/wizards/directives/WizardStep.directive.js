@@ -34,8 +34,8 @@
            * Create step
            */
           function create(stepIndex){
-            var name = element.find('h2').text();
-            var desc = element.find('p').text();
+            var name = element.find('h2').text().trim();
+            var desc = element.find('p').text().trim();
 
             // TODO: Event activeStep:X and deactiveStep:X will be better
             scope.$on('changeActiveStep', function(event, data){

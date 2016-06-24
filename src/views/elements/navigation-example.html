@@ -1,5 +1,6 @@
 <ul>
   <li ng-repeat="step in steps">
-    <a href="" ng-click="wizard.changeStep(step.index)">{{step.stepData.name}}</a>
+    <a href="" ng-click="::wizard.changeStep(step.index)">{{::step.stepData.name}}</a>
+    <p class="small">{{::step.stepData.desc  | limitTo : 100}}</p>
   </li>
 </ul>

@@ -14,93 +14,132 @@
 <body>
 
   <div class="container">
-    <h1>Attribute directives</h1>
+    <div ng-controller="ExampleController">
+      <h1>Attribute directives with custom navitation template</h1>
+      <h4>Only first 100 letters of description in navigation</h4>
 
-    <div wizard class="row">
-      <div class="col-md-3">
-        <div wizard-steps-navigation template="views/elements/navigation-example.html"></div>
-      </div>
-      <div class="col-md-9">
-        <div wizard-step>
-          <h2>Step 1</h2>
-          <p>Some description for Step 1. <b>Bold some text</b></p>
-        </div>
+      <pre>{{data}}</pre>
 
-        <div wizard-step>
-          <h2>Step 2</h2>
-          <p>Description for Step 2</p>
+      <div wizard class="row" on-complete="onComplete(data)">
+        <div class="col-md-3">
+          <div wizard-steps-navigation template="views/elements/navigation-example.html"></div>
         </div>
-      </div>
-      <div class="col-md-12">
-        <wizard-steps-pagination></wizard-steps-pagination>
+        <div class="col-md-9">
+          <div wizard-step>
+            <h2>Step 1</h2>
+            <p>Some description for Step 1. <b>Bold some text</b></p>
+
+            <form name="step1" novalidate>
+              <div class="form-group">
+                <label for="step1-email">* Email address</label>
+                <input required type="email" name="email" ng-model="data.email" class="form-control" id="step1-email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="step2-password">* Password</label>
+                <input required type="password" name="password" ng-model="data.password" class="form-control" id="step2-password" placeholder="Password">
+              </div>
+            </form>
+          </div>
+
+          <div wizard-step>
+            <h2>Step 2</h2>
+            <p>
+              Description for Step 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+              qui officia deserunt mollit anim id est laborum
+            </p>
+
+            <form name="step2" novalidate>
+              <div class="form-group">
+                <label for="step2-name">* Name</label>
+                <input required type="text" name="name" ng-model="data.name" class="form-control" id="step2-name" placeholder="Name">
+
+                <label for="step2-surname">Surname</label>
+                <input type="text" name="surname" ng-model="data.surname" class="form-control" id="step2-surname" placeholder="Surname">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <wizard-steps-pagination></wizard-steps-pagination>
+        </div>
       </div>
     </div>
 
     <hr/>
 
-    <h1>Element directives</h1>
+    <div ng-controller="Example2Controller">
+      <h1>Element directives</h1>
 
-    <wizard class="row">
-      <div class="col-md-3">
-        <wizard-steps-navigation></wizard-steps-navigation>
-      </div>
-      <div class="col-md-9">
-        <wizard-step>
-          <h2>Step 1</h2>
-          <p>Some description for Step 1. <b>Bold some text</b></p>
+      <pre>{{data}}</pre>
 
-          <form name="step1" novalidate ng-submit="$parent.wizard.nextStep()">
-            <div class="form-group">
-              <label for="step1-email">* Email address</label>
-              <input required type="email" name="email" ng-model="data.email" class="form-control" id="step1-email" placeholder="Email">
-            </div>
-            <div class="form-group">
-              <label for="step2-password">* Password</label>
-              <input required type="password" name="password" ng-model="data.password" class="form-control" id="step2-password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-default pull-right">Go next</button>
-          </form>
-        </wizard-step>
+      <wizard class="row" on-complete="onComplete(data)">
+        <div class="col-md-3">
+          <wizard-steps-navigation></wizard-steps-navigation>
+        </div>
+        <div class="col-md-9">
+          <wizard-step>
+            <h2>Step 1</h2>
+            <p>Some description for Step 1. <b>Bold some text</b></p>
 
-        <wizard-step>
-          <h2>Step 2</h2>
-          <p>
-            Description for Step 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-            qui officia deserunt mollit anim id est laborum
-          </p>
+            <form name="step1" novalidate ng-submit="$parent.wizard.nextStep()">
+              <div class="form-group">
+                <label for="step1-email">* Email address</label>
+                <input required type="email" name="email" ng-model="data.email" class="form-control" id="step1-email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="step2-password">* Password</label>
+                <input required type="password" name="password" ng-model="data.password" class="form-control" id="step2-password" placeholder="Password">
+              </div>
+              <button type="submit" class="btn btn-default pull-right">Go next</button>
+            </form>
+          </wizard-step>
 
-          <form name="step2" novalidate ng-submit="$parent.wizard.nextStep()">
-            <div class="form-group">
-              <label for="step2-name">* Name</label>
-              <input required type="text" name="name" ng-model="data.name" class="form-control" id="step2-name" placeholder="Name">
+          <wizard-step>
+            <h2>Step 2</h2>
+            <p>
+              Description for Step 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+              esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+              qui officia deserunt mollit anim id est laborum
+            </p>
 
-              <label for="step2-surname">Surname</label>
-              <input type="text" name="surname" ng-model="data.surname" class="form-control" id="step2-surname" placeholder="Surname">
-            </div>
-            <button type="submit" class="btn btn-default pull-right">Go next</button>
-          </form>
-        </wizard-step>
+            <form name="step2" novalidate ng-submit="$parent.wizard.nextStep()">
+              <div class="form-group">
+                <label for="step2-name">* Name</label>
+                <input required type="text" name="name" ng-model="data.name" class="form-control" id="step2-name" placeholder="Name">
 
-        <wizard-step>
-          <h2>Step 3</h2>
-          <p>Description for Step 3</p>
+                <label for="step2-surname">Surname</label>
+                <input type="text" name="surname" ng-model="data.surname" class="form-control" id="step2-surname" placeholder="Surname">
+              </div>
+              <button type="submit" class="btn btn-default pull-right">Go next</button>
+            </form>
+          </wizard-step>
 
-          <form name="step3" novalidate ng-submit="$parent.wizard.nextStep()">
-            <div class="form-group">
-              <label for="step3-foo">* Foo</label>
-              <input required type="text" name="foo" ng-model="data.foo" class="form-control" id="step3-foo" placeholder="Foo">
-            </div>
-            <button type="submit" class="btn btn-default pull-right">Finish</button>
-          </form>
-        </wizard-step>
-      </div>
-      <div class="col-md-12">
-        <wizard-steps-pagination></wizard-steps-pagination>
-      </div>
-    </wizard>
+          <wizard-step>
+            <h2>Step 3</h2>
+            <p>Description for Step 3</p>
+
+            <form name="step3" novalidate ng-submit="$parent.wizard.complete()">
+              <div class="form-group">
+                <label for="step3-foo">* Foo</label>
+                <input required type="text" name="foo" ng-model="data.foo" class="form-control" id="step3-foo" placeholder="Foo">
+              </div>
+              <button type="submit" class="btn btn-default pull-right">Finish</button>
+            </form>
+          </wizard-step>
+        </div>
+        <div class="col-md-12">
+          <wizard-steps-pagination></wizard-steps-pagination>
+        </div>
+      </wizard>
+
+    </div>
+
+
 
 
   <!--build:js(dist) js/all.min.js-->

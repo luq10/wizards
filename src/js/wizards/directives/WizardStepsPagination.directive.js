@@ -64,6 +64,11 @@
                 enable(next);
               }
             });
+
+            // Complete
+            finish.on('click', function(){
+              wizardController.complete();
+            });
           }());
 
           /**
