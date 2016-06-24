@@ -17,6 +17,8 @@
            * @private
            */
           var _private = {
+            index: 0,
+
             /**
              * Index of active step
              */
@@ -39,23 +41,24 @@
            * @returns {Number}
            */
           this.getNextIndex = function(){
-            return _private.steps.length;
+            return _private.index++;
           };
 
           /**
            * Add new step
            *
            * @param {String} name
+           * @param {String} name
            * @param {String} desc
            */
-          this.addStep = function(name, desc){
+          this.addStep = function(index, name, desc){
             var data = {
               name: name,
               desc: desc
             };
-            var index = this.getNextIndex();
+            // var index = this.getNextIndex();
 
-            _private.steps.push(data);
+            _private.steps[index] = data;
 
             $scope.$broadcast('addStep', this.getStep(index));
 
@@ -90,10 +93,14 @@
               }
 
               if(true === isValidAll){
-                // TODO
-                // This is suck... all parent scope can catch this event. What if something else emit 'wizardValid' event :(
-                $scope.$emit('wizardValid');
+                $scope.$broadcast('wizardValid');
               }
+              else{
+                $scope.$broadcast('wizardInvalid');
+              }
+            }
+            else{
+              $scope.$broadcast('wizardInvalid');
             }
           };
 
@@ -144,6 +151,28 @@
             }
 
             this.changeStep(_private.activeStepIndex + 1);
+          };
+
+          /**
+           * Return true if exist prev step
+           *
+           * @returns {Boolean}
+           */
+          this.isPrevStep = function(){
+            var prevIndex = _private.activeStepIndex - 1;
+
+            return (prevIndex >= 0 && _private.steps.length > 0);
+          };
+
+          /**
+           * Change step to prev (if exist)
+           */
+          this.prevStep = function(){
+            if(false === this.isPrevStep()){
+              return;
+            }
+
+            this.changeStep(_private.activeStepIndex - 1);
           };
         }
       }

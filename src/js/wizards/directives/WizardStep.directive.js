@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('wizards')
-    .directive('wizardStep', function () {
+    .directive('wizardStep', function ($timeout) {
       return {
         restrict: 'EA',
         require: '^wizard',
@@ -15,6 +15,10 @@
           // We must know index of this step before add step to wizard controller
           // because after add we must register listener on 'changeActiveStep' event
           var stepIndex = wizardController.getNextIndex();
+
+          var form          = element.find('form');
+          var firstInput    = (form) ? form.find('input')[0] : null;
+          var submitButton  = (form) ? form.find('button[type="submit"]') : null;
 
           scope.wizard = wizardController;
 
@@ -37,6 +41,11 @@
             scope.$on('changeActiveStep', function(event, data){
               if(stepIndex === data.index){
                 element.removeClass('hide');
+
+                if(firstInput){
+                  firstInput.focus();
+                }
+
                 return;
               }
 
@@ -54,15 +63,45 @@
               }
             });
 
-            wizardController.addStep(name, desc);
+            // Hire is some kind of hack.
+            // Wizard directives compile in order which are defined in DOM e.g: for this HTML:
+            //
+            // <wizard>
+            //  <div>
+            //    <wizard-step></wizard-step>
+            //  </div>
+            //  <div>
+            //    <wizard-navigation></wizard-navigation>
+            //  </div>
+            //  <div>
+            //    <wizard-pagination></wizard-pagination>
+            //  </div>
+            // </wizard>
+            //
+            // Order will be:
+            // 1. wizard
+            // 2. wizard-step
+            // 3. wizard-navigation
+            // 4. wizard-pagination
+            //
+            // To work correctly: wizard-navigation and wizard-pagination must register event listener before wizard-step
+            // add step. Angular directives has something called 'priority' but it works only if directives has the same
+            // parent node. That`s why this logic of add new step it`s some kind of freaky:
+            //
+            // - get index and save it
+            // - wizard controller has private field of index
+            // - must set an index to add new step
+            //
+            // But i dot`t know how do it better.
+            $timeout(function(){
+              wizardController.addStep(stepIndex, name, desc);
+            });
           }
 
           /**
            * Watch form $valid change and inform wizard directive about change
            */
           function watchValidationOfForm(){
-            var form = element.find('form');
-
             if(0 === form.length){
               // No form in this step
               return;
@@ -94,9 +133,6 @@
            * @param {Boolean} isValid
            */
           function onChangeFormValid(form, formController, isValid){
-            // TODO: Store this! Not search DOM each time for this element.
-            var submitButton = form.find('button[type="submit"]');
-
             if(true === isValid){
               submitButton.addClass('btn-success');
               submitButton.removeAttr('disabled');
