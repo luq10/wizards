@@ -4,7 +4,7 @@
   angular.module('wizards')
     .directive('wizardStep', function () {
       return {
-        restrict: 'E',
+        restrict: 'EA',
         require: '^wizard',
         templateUrl: 'views/elements/wizard-step.html',
         replace: true,

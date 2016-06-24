@@ -4,7 +4,7 @@
   angular.module('wizards')
     .directive('wizardStepsNavigation', function ($templateRequest, $compile, $rootScope) {
       return {
-        restrict: 'E',
+        restrict: 'EA',
         require: '^wizard',
         transclude: true,
         scope: {},
