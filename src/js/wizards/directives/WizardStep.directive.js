@@ -13,7 +13,7 @@
 
         link: function (scope, element, attrs, wizardController) {
           // We must know index of this step before add step to wizard controller
-          // because after add we must register listener on 'changeActiveStep' event
+          // because before add we must register listener on 'changeActiveStep' event
           var stepIndex = wizardController.getNextIndex();
 
           var form          = element.find('form');
