@@ -109,10 +109,19 @@
 
             var formController = angular.element(form).scope()[form.attr('name')];
 
+            // Watching on function is not good for performance
+            // I see code when someone write something like this:
+            //
+            // scope.formController = formController
+            // scope.$watch('formController.$valid', function(){
+            //    (...)
+            // )
+            //
+            // But this looks like a shit, but maybe is better for performance. Need tests.
             scope.$watch(function(){
               return formController.$valid;
             }, function(isValid){
-              // Emit is sucks, all parent scopes can watch this... I want to emit this only to wizard directive
+              // Emit is sucks, all parent scopes can watch this... I want to emit this only up to wizard directive
               // (and all children of wizard directive)...
               //
               // scope.$emit('changeStepValid', {
