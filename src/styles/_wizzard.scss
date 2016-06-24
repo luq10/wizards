@@ -1,0 +1,16 @@
+.wizard {
+  .wizard-step {
+    padding: 20px;
+
+    &.invalid {
+      background: #FFE4E4;
+    }
+    &.valid {
+      background: #E6F3E6;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+}

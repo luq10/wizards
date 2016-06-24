@@ -20,7 +20,7 @@
 
             // Important:
             //
-            // We don`t anticipate that steps will be added after load app
+            // We don`t anticipate that steps will be added after load application
             scope.$on('addStep', function(event, data){
               steps.push(data);
             });

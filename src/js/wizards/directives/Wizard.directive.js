@@ -25,7 +25,12 @@
             /**
              * List of steps
              */
-            steps: []
+            steps: [],
+
+            /**
+             * List of step validation
+             */
+            validation: []
           };
 
           /**
@@ -52,14 +57,43 @@
 
             _private.steps.push(data);
 
-            $scope.$broadcast('addStep', {
-              index:    index,
-              stepData: data
-            });
+            $scope.$broadcast('addStep', this.getStep(index));
 
             // If add first step, make this step default active
             if(0 === index){
               this.changeStep(0);
+            }
+          };
+
+          /**
+           *
+           */
+          this.changeStepValid = function(index, isValid){
+            _private.validation[index] = isValid;
+
+            // Emit event about change valid of state
+            var step = this.getStep(index);
+            step.valid = isValid;
+
+            $scope.$broadcast('changeStepValid', step);
+            $scope.$broadcast('changeStepValid:' + step.index, step);
+
+            // Check if all steps is valid
+            if(true === isValid && _private.validation.length === _private.steps.length){
+              var isValidAll = true;
+
+              for(var i = 0, ilen = _private.steps.length; i < ilen; i++){
+                if(true !== _private.validation[i]){
+                  isValidAll = false;
+                  break;
+                }
+              }
+
+              if(true === isValidAll){
+                // TODO
+                // This is suck... all parent scope can catch this event. What if something else emit 'wizardValid' event :(
+                $scope.$emit('wizardValid');
+              }
             }
           };
 
@@ -82,10 +116,12 @@
            * @param {Number} index
            */
           this.changeStep = function(index){
-            $scope.$broadcast('changeActiveStep', {
-              index:    index,
-              stepData: _private.steps[index]
-            });
+            var step = this.getStep(index);
+
+            _private.activeStepIndex = index;
+
+            $scope.$broadcast('changeActiveStep', step);
+            $scope.$broadcast('changeActiveStep:' + index, step);
           };
 
           /**
@@ -107,10 +143,8 @@
               return;
             }
 
-            var nextIndex = _private.activeStepIndex + 1;
-
-            $scope.$broadcast('changeActiveStep', this.getStep(nextIndex));
-          }
+            this.changeStep(_private.activeStepIndex + 1);
+          };
         }
       }
 
